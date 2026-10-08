@@ -1,3 +1,11 @@
 [gd_scene format=3 uid="uid://bbr33ckir83sm"]
 
+[ext_resource type="PackedScene" uid="uid://dgun8sgt3cv3a" path="res://scene/felix.tscn" id="1_itxqv"]
+
 [node name="Main" type="Node2D" unique_id=2021982413]
+
+[node name="Felix" parent="." unique_id=776354064 instance=ExtResource("1_itxqv")]
+
+[node name="Camera2D" type="Camera2D" parent="Felix" unique_id=1707005386]
+position = Vector2(-2, 3)
+zoom = Vector2(2, 2)
