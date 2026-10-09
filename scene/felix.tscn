@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://duh3ohq7d8bux" path="res://asset/character/felix&marcel/male_hero_template-combo_1.png" id="2_8thpd"]
 [ext_resource type="Texture2D" uid="uid://k7to08641uog" path="res://asset/character/felix&marcel/male_hero_template-combo_1_end.png" id="3_u8l8h"]
 [ext_resource type="Texture2D" uid="uid://bpkokiwwtpp2b" path="res://asset/character/felix&marcel/male_hero_template-idle.png" id="4_oiemb"]
+[ext_resource type="Texture2D" uid="uid://4u20a3wxvsof" path="res://asset/character/felix&marcel/male_hero_template-run.png" id="5_8thpd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kguvw"]
 atlas = ExtResource("2_8thpd")
@@ -71,6 +72,46 @@ region = Rect2(1024, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7nr45"]
 atlas = ExtResource("4_oiemb")
+region = Rect2(1152, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8l8h"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oiemb"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2jbn"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihf3b"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn77s"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0jg3"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ar1pe"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3obvf"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6q8kv"]
+atlas = ExtResource("5_8thpd")
+region = Rect2(1024, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3td1y"]
+atlas = ExtResource("5_8thpd")
 region = Rect2(1152, 0, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lvwo2"]
@@ -141,7 +182,37 @@ animations = [{
 "name": &"jump",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8l8h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oiemb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2jbn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihf3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tn77s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0jg3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ar1pe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3obvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6q8kv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3td1y")
+}],
 "loop": 1,
 "name": &"run",
 "speed": 5.0
@@ -178,10 +249,27 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 }
 
+[sub_resource type="Animation" id="Animation_8thpd"]
+resource_name = "run_anim"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tn77s"]
 _data = {
 &"RESET": SubResource("Animation_m2jbn"),
-&"walk_anim": SubResource("Animation_ihf3b")
+&"idle_anim": SubResource("Animation_ihf3b"),
+&"run_anim": SubResource("Animation_8thpd")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b4uca"]
@@ -192,7 +280,7 @@ script = ExtResource("1_3l5wu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=62536507]
 sprite_frames = SubResource("SpriteFrames_lvwo2")
-animation = &"idle"
+animation = &"run"
 speed_scale = 2.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1891553522]
