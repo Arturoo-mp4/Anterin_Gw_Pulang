@@ -4,27 +4,36 @@ extends  CharacterBody2D
 var current_horizon := 1
 var speed := 400.0
 var jump := -470
+
+
 enum State{
 	IDLE,
 	RUN,
 	JUMP,
-	ATTACK
+	ATTACK,
+	FALL
 }
+
 var state = State.IDLE
 
 func _ready() -> void:
-	change_state(State.IDLE)
+	animation_player.play("idle_anim")
 	
 	
 func change_state(new_state):
+	if state == new_state:
+		return
 	state = new_state
-	
+	print("state sekarang: ", state, " | anim: ", animation_player.current_animation)
 	match state:
 		State.IDLE:
 			animation_player.play("idle_anim")
 		State.RUN:
 			animation_player.play("run_anim")
-			
+		State.JUMP:
+			animation_player.play("jump_anim")
+		State.FALL:
+			animation_player.play("fall_anim")
 				
 			
 func _physics_process(delta: float) -> void:
@@ -41,9 +50,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x,0,speed)
 		
-	if velocity.x != 0:
+	#state
+	if not is_on_floor():
+		change_state(State.JUMP)
+	elif velocity.x != 0:
 		change_state(State.RUN)
-	elif velocity.x == 0:
+	else:
 		change_state(State.IDLE)
 	
 	
@@ -51,10 +63,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump
 		
 	#flip current_horizon
-	if current_horizon >= 1:
-		sprite_anim.flip_h = false
-	elif current_horizon <= -1:
-		sprite_anim.flip_h = true
+	sprite_anim.flip_h = current_horizon < 0
 	
 	move_and_slide()
 	
