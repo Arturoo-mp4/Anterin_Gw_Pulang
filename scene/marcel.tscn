@@ -1,6 +1,109 @@
 [gd_scene format=3 uid="uid://d0ad635uhge3n"]
 
 [ext_resource type="Script" uid="uid://c5b30vnwesh76" path="res://marcel.gd" id="1_i3p3l"]
+[ext_resource type="Texture2D" uid="uid://bpkokiwwtpp2b" path="res://asset/character/felix&marcel/male_hero_template-idle.png" id="2_qtabt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s56v5"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0src"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f571e"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwou4"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pn156"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1owm"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75td8"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2iiq"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2oyc"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(1024, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ynda"]
+atlas = ExtResource("2_qtabt")
+region = Rect2(1152, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lvwo2"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s56v5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0src")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f571e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwou4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pn156")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1owm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75td8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2iiq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2oyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ynda")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b4uca"]
+size = Vector2(23, 32)
 
 [node name="Marcel" type="CharacterBody2D" unique_id=1853913015]
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_i3p3l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=528545751]
+sprite_frames = SubResource("SpriteFrames_lvwo2")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1791740602]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_b4uca")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1284335256]

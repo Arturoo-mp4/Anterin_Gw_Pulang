@@ -3,7 +3,7 @@ extends  CharacterBody2D
 @onready var sprite_anim: AnimatedSprite2D = $AnimatedSprite2D
 var current_horizon := 1
 var speed := 400.0
-var jump := -470
+var jump := -670
 
 
 enum State{
@@ -24,7 +24,7 @@ func change_state(new_state):
 	if state == new_state:
 		return
 	state = new_state
-	print("state sekarang: ", state, " | anim: ", animation_player.current_animation)
+	
 	match state:
 		State.IDLE:
 			animation_player.play("idle_anim")
@@ -50,17 +50,26 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x,0,speed)
 		
+	
+	if Input.is_action_pressed("ui_accept") and is_on_floor():
+		velocity.y = jump
+		
+		
+	
+	
 	#state
 	if not is_on_floor():
-		change_state(State.JUMP)
+		if velocity.y < 0:
+			change_state(State.JUMP)
+		else:
+			change_state(State.FALL)
+		
 	elif velocity.x != 0:
 		change_state(State.RUN)
 	else:
 		change_state(State.IDLE)
 	
-	
-	if Input.is_action_pressed("ui_accept") and is_on_floor():
-		velocity.y = jump
+		
 		
 	#flip current_horizon
 	sprite_anim.flip_h = current_horizon < 0
