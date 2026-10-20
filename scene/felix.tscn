@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bpkokiwwtpp2b" path="res://asset/character/felix&marcel/male_hero_template-idle.png" id="4_oiemb"]
 [ext_resource type="Texture2D" uid="uid://4u20a3wxvsof" path="res://asset/character/felix&marcel/male_hero_template-run.png" id="5_8thpd"]
 [ext_resource type="Texture2D" uid="uid://ciwfjmfhv7v1u" path="res://asset/character/felix&marcel/male_hero_template-jump.png" id="5_u8l8h"]
+[ext_resource type="PackedScene" uid="uid://d0ad635uhge3n" path="res://scene/marcel.tscn" id="8_kguvw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kguvw"]
 atlas = ExtResource("2_8thpd")
@@ -393,3 +394,6 @@ libraries/ = SubResource("AnimationLibrary_tn77s")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=705931496]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_b4uca")
+
+[node name="Marcel" parent="." unique_id=1853913015 instance=ExtResource("8_kguvw")]
+position = Vector2(-67, -60)

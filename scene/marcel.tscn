@@ -96,6 +96,7 @@ size = Vector2(23, 32)
 
 [node name="Marcel" type="CharacterBody2D" unique_id=1853913015]
 scale = Vector2(1.5, 1.5)
+motion_mode = 1
 script = ExtResource("1_i3p3l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=528545751]
