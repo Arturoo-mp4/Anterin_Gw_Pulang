@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d0ad635uhge3n"]
 
-[ext_resource type="Script" uid="uid://c5b30vnwesh76" path="res://marcel.gd" id="1_i3p3l"]
+[ext_resource type="Script" uid="uid://b6avh6tlld1uh" path="res://script/marcel.gd" id="1_qtabt"]
 [ext_resource type="Texture2D" uid="uid://bpkokiwwtpp2b" path="res://asset/character/felix&marcel/male_hero_template-idle.png" id="2_qtabt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s56v5"]
@@ -97,7 +97,7 @@ size = Vector2(23, 32)
 [node name="Marcel" type="CharacterBody2D" unique_id=1853913015]
 scale = Vector2(1.5, 1.5)
 motion_mode = 1
-script = ExtResource("1_i3p3l")
+script = ExtResource("1_qtabt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=528545751]
 sprite_frames = SubResource("SpriteFrames_lvwo2")

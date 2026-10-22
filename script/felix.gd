@@ -4,7 +4,12 @@ extends  CharacterBody2D
 var current_horizon := 1
 var speed := 400.0
 var jump := -670
+var energy := 100.0
 
+@onready var marcel: CharacterBody2D = $Marcel
+var controller := false
+var remote_skill_pressed := false
+var max_energy := 100.0
 
 enum State{
 	IDLE,
@@ -37,7 +42,9 @@ func change_state(new_state):
 				
 			
 func _physics_process(delta: float) -> void:
-	
+	print(position)
+	if controller:
+		return
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
@@ -54,9 +61,6 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump
 		
-		
-	
-	
 	#state
 	if not is_on_floor():
 		if velocity.y < 0:
@@ -69,10 +73,26 @@ func _physics_process(delta: float) -> void:
 	else:
 		change_state(State.IDLE)
 	
-		
-		
 	#flip current_horizon
 	sprite_anim.flip_h = current_horizon < 0
 	
 	move_and_slide()
 	
+	
+	if Input.is_action_just_pressed("remote_control"):
+		remote_skill_pressed = !remote_skill_pressed
+		print(remote_skill_pressed)
+		
+	if remote_skill_pressed:
+		controller = true
+		energy = max_energy
+		marcel.on_remoted(global_position)
+	if controller:
+		energy -= delta
+		
+	
+	if energy >= 0 or not remote_skill_pressed:
+		controller = false
+		marcel.remote_deactived()
+		velocity = Vector2.ZERO
+		global_position = marcel.global_position
