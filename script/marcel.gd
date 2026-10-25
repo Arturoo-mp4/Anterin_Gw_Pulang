@@ -7,6 +7,8 @@ var on_control := false
 
 func _ready() -> void:
 	top_level = true
+	remote_deactived()
+	hitbox.set_deferred("disabled", true)
 
 func _physics_process(delta: float) -> void:
 	if  on_control:
@@ -23,13 +25,15 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-func on_remoted(pos: Vector2):
+func remote_active(pos: Vector2):
 	global_position = pos
-	on_control = true
+	on_control = false
 	show()
 	
+	
 func remote_deactived():
-	on_control = false
+	on_control = true
 	hide()
 	velocity = Vector2.ZERO
+	
 	

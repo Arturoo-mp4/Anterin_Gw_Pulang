@@ -396,3 +396,4 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_b4uca")
 
 [node name="Marcel" parent="." unique_id=1853913015 instance=ExtResource("8_kguvw")]
+scale = Vector2(1.2, 1.2)

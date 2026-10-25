@@ -8,8 +8,12 @@ var energy := 100.0
 
 @onready var marcel: CharacterBody2D = $Marcel
 var controller := false
-var remote_skill_pressed := false
+
 var max_energy := 100.0
+
+@onready var progress_bar: ProgressBar = $"../CanvasLayer/ProgressBar"
+@onready var camera: Camera2D = $Camera2D
+
 
 enum State{
 	IDLE,
@@ -42,9 +46,9 @@ func change_state(new_state):
 				
 			
 func _physics_process(delta: float) -> void:
-	print(position)
-	if controller:
-		return
+	
+	progress_bar.value = energy
+		
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
@@ -56,12 +60,12 @@ func _physics_process(delta: float) -> void:
 		current_horizon = -1
 	else:
 		velocity.x = move_toward(velocity.x,0,speed)
-		
 	
+
 	if Input.is_action_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump
-		
-	#state
+	
+#state
 	if not is_on_floor():
 		if velocity.y < 0:
 			change_state(State.JUMP)
@@ -76,23 +80,35 @@ func _physics_process(delta: float) -> void:
 	#flip current_horizon
 	sprite_anim.flip_h = current_horizon < 0
 	
+	
+#remote
+	if Input.is_action_just_pressed("remote_control"):
+		controller = !controller
+		if controller:
+			start_remote()
+		else:
+			end_remote()
+	if controller:
+		speed = 0
+		energy -= 0.3
+		if energy <= 0:
+			end_remote()
+	else:
+		energy += 0.1
+		if energy >= 100:
+			energy = 100
 	move_and_slide()
 	
+#skill remote_control
+func start_remote():
+	if energy <= 0:
+		end_remote()
+	controller = true
+	marcel.remote_active(global_position)
 	
-	if Input.is_action_just_pressed("remote_control"):
-		remote_skill_pressed = !remote_skill_pressed
-		print(remote_skill_pressed)
-		
-	if remote_skill_pressed:
-		controller = true
-		energy = max_energy
-		marcel.on_remoted(global_position)
-	if controller:
-		energy -= delta
-		
-	
-	if energy >= 0 or not remote_skill_pressed:
-		controller = false
-		marcel.remote_deactived()
-		velocity = Vector2.ZERO
-		global_position = marcel.global_position
+func end_remote():
+	controller = false
+	global_position = marcel.global_position
+	velocity = Vector2.ZERO
+	marcel.remote_deactived()
+	speed = 400
