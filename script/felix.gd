@@ -10,9 +10,10 @@ var energy := 100.0
 var controller := false
 
 var max_energy := 100.0
+var last_valid_pos := Vector2.ZERO
 
-@onready var progress_bar: ProgressBar = $"../CanvasLayer/ProgressBar"
-@onready var camera: Camera2D = $Camera2D
+@onready var energy_bar: ProgressBar = $"../CanvasLayer/ProgressBar"
+
 
 
 enum State{
@@ -27,6 +28,9 @@ var state = State.IDLE
 
 func _ready() -> void:
 	animation_player.play("idle_anim")
+	add_collision_exception_with(marcel)
+	marcel.add_collision_exception_with(self)
+	
 	
 	
 func change_state(new_state):
@@ -46,8 +50,7 @@ func change_state(new_state):
 				
 			
 func _physics_process(delta: float) -> void:
-	
-	progress_bar.value = energy
+	energy_bar.value = energy
 		
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -63,7 +66,10 @@ func _physics_process(delta: float) -> void:
 	
 
 	if Input.is_action_pressed("ui_accept") and is_on_floor():
-		velocity.y = jump
+		if controller:
+			velocity.y = 0
+		else:
+			velocity.y = jump
 	
 #state
 	if not is_on_floor():
@@ -86,15 +92,16 @@ func _physics_process(delta: float) -> void:
 		controller = !controller
 		if controller:
 			start_remote()
+			last_valid_pos = global_position
 		else:
 			end_remote()
 	if controller:
 		speed = 0
-		energy -= 0.3
+		energy -= delta
 		if energy <= 0:
 			end_remote()
 	else:
-		energy += 0.1
+		energy += 0.2
 		if energy >= 100:
 			energy = 100
 	move_and_slide()
@@ -109,6 +116,14 @@ func start_remote():
 func end_remote():
 	controller = false
 	global_position = marcel.global_position
+	if marcel.get_stuck:
+		global_position = last_valid_pos
+		felix_get_stuck_modulate()
 	velocity = Vector2.ZERO
 	marcel.remote_deactived()
 	speed = 400
+
+func felix_get_stuck_modulate():
+	var tween = create_tween()
+	tween.tween_property(self, "modulate", Color.DARK_RED, 0.4)
+	tween.tween_property(self, "modulate", Color(1, 1, 1), 0.4)

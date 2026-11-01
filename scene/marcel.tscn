@@ -94,6 +94,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b4uca"]
 size = Vector2(23, 32)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lvwo2"]
+radius = 12.666667
+height = 37.333336
+
 [node name="Marcel" type="CharacterBody2D" unique_id=1853913015]
 scale = Vector2(1.5, 1.5)
 motion_mode = 1
@@ -108,3 +112,12 @@ position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_b4uca")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1284335256]
+
+[node name="If_collision" type="Area2D" parent="." unique_id=1302901643]
+modulate = Color(1, 0.65882355, 0.3019608, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="If_collision" unique_id=44889876]
+shape = SubResource("CapsuleShape2D_lvwo2")
+
+[connection signal="body_entered" from="If_collision" to="." method="_on_if_collision_body_entered"]
+[connection signal="body_exited" from="If_collision" to="." method="_on_if_collision_body_exited"]
