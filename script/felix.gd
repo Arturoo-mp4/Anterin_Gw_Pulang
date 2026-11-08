@@ -12,8 +12,7 @@ var controller := false
 var max_energy := 100.0
 var last_valid_pos := Vector2.ZERO
 
-@onready var energy_bar: ProgressBar = $"../CanvasLayer/ProgressBar"
-
+@export var energy_bar := Node
 
 
 enum State{
@@ -34,19 +33,22 @@ func _ready() -> void:
 	
 	
 func change_state(new_state):
+	
 	if state == new_state:
 		return
+	
 	state = new_state
 	
 	match state:
-		State.IDLE:
-			animation_player.play("idle_anim")
-		State.RUN:
-			animation_player.play("run_anim")
-		State.JUMP:
-			animation_player.play("jump_anim")
-		State.FALL:
-			animation_player.play("fall_anim")
+		
+			State.IDLE:
+				animation_player.play("idle_anim")
+			State.RUN:
+				animation_player.play("run_anim")
+			State.JUMP:
+				animation_player.play("jump_anim")
+			State.FALL:
+				animation_player.play("fall_anim")
 				
 			
 func _physics_process(delta: float) -> void:
@@ -55,21 +57,20 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	if Input.is_action_pressed("kanan"):
-		velocity.x = speed
-		current_horizon = 1
-	elif Input.is_action_pressed("kiri"):
-		velocity.x = -speed
-		current_horizon = -1
+	if controller:
+		velocity.x = 0
 	else:
-		velocity.x = move_toward(velocity.x,0,speed)
-	
-
-	if Input.is_action_pressed("ui_accept") and is_on_floor():
-		if controller:
-			velocity.y = 0
+		if Input.is_action_pressed("kanan"):
+			velocity.x = speed
+			current_horizon = 1
+		elif Input.is_action_pressed("kiri"):
+			velocity.x = -speed
+			current_horizon = -1
 		else:
-			velocity.y = jump
+			velocity.x = move_toward(velocity.x,0,speed)
+			
+		if Input.is_action_pressed("ui_accept") and is_on_floor() and not controller:
+				velocity.y = jump
 	
 #state
 	if not is_on_floor():
@@ -96,7 +97,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			end_remote()
 	if controller:
-		speed = 0
+		velocity.x = 0
 		energy -= delta
 		if energy <= 0:
 			end_remote()
@@ -110,8 +111,10 @@ func _physics_process(delta: float) -> void:
 func start_remote():
 	if energy <= 0:
 		end_remote()
+		return
 	controller = true
 	marcel.remote_active(global_position)
+	
 	
 func end_remote():
 	controller = false
@@ -121,7 +124,7 @@ func end_remote():
 		felix_get_stuck_modulate()
 	velocity = Vector2.ZERO
 	marcel.remote_deactived()
-	speed = 400
+
 
 func felix_get_stuck_modulate():
 	var tween = create_tween()

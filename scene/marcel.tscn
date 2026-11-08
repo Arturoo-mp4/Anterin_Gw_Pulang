@@ -118,6 +118,3 @@ modulate = Color(1, 0.65882355, 0.3019608, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="If_collision" unique_id=44889876]
 shape = SubResource("CapsuleShape2D_lvwo2")
-
-[connection signal="body_entered" from="If_collision" to="." method="_on_if_collision_body_entered"]
-[connection signal="body_exited" from="If_collision" to="." method="_on_if_collision_body_exited"]
